@@ -1,0 +1,61 @@
+#
+# New England Mesh Dashboards - Docker Compose file which creates a runtime
+# environment for New England AREDN mesh dashboard development and testing.
+# This Compose file is configured to use the production Prometheus time-series
+# database for the New England AREDN Mesh.
+#
+# Version 1.0 - Create by AB1OC on Decemeber 31st, 2025
+#
+# Notes:
+#    - You need to install the initial dashboard.json and
+#      dashboards.yml on the external volume that you define
+#      as "grafana_dash" on your local machine.
+#    - You can access the test Grafana instance as
+#      http://localhost:3000
+#    - You need to copy the env.example file to env and set the
+#      environment to customize the installation for your machine.
+#      You should then load your env along with this Stack in Portainer.
+#      Set the comments in the env.example template file for details.
+#    - You can create your dashboard files in the provisioning/dashboards
+#      folder in your development directory. A copy of the working v1.0
+#      is included as a sample.
+#
+
+version: "3.9"
+
+# Setup dedicated Docker network for Grafana monitoring dashboards
+networks:
+  grafnet:
+    driver: bridge
+
+services:
+
+  # Run Grafana container using production Prometheus instance
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: dev-dashboard
+    security_opt:
+      - no-new-privileges:true
+            
+    # Specify restart policy
+    restart: unless-stopped
+
+    # Set user and group IDs
+    user: "1000:1000"  # This is the default admin user (ubuntu on most linux systems)
+
+    networks:
+      - grafnet
+
+    ports:
+      - '${HOST_PORT}:3000'   # Map Grafana's default port to a port on the local machine
+      
+    volumes:
+      - '${LOCAL_DEV_DIR}/var-lib-grafana:/var/lib/grafana'       # Persistent storage for Grafana data
+      - '${LOCAL_DEV_DIR}/provisioning:/etc/grafana/provisioning' # Provisioning configuration   
+      - '${LOCAL_DEV_DIR}/grafana.ini:/etc/grafana/grafana.ini'   # Grafana config file
+
+    environment:
+      # Configure initial admin login/password - you will be prompted to change password on first login
+      - 'GF_SECURITY_ADMIN_USER=admin'       # admin username
+      - 'GF_SECURITY_ADMIN_PASSWORD=admin'   # initial admin password
+      - 'PROMETHEUS_URL=${MY_PROM_URL}'      # source for Prometheus TSDB
