@@ -27,9 +27,9 @@ Once you have Docker Desktop and Portainer running and you have access to the Pr
      cp env.example env
      <edit> env  # Set the variables for you dev environment
      ```
-3. Create a ***Stack*** in Portainer using the provided ***Dashboards/dev/docker-compose.yml*** file and load your ***env** file to create the environment variables for your stack.
+3. Create a ***Stack*** in Portainer by uploading the provided ***Dashboards/dev/docker-compose.yml*** file and load your ***env** file to create the environment variables for your stack.
 4. Run your Stack to start Grafana. You will be running the Version 1 RF-Dashboard using data from the New England production Prometheus TSDB. You can access Grafana and the current dashboard(s) via [http://localhost:3000](http://localhost:3000).
-5. You can create or modify your dashboards as a .json file in ***Dashboards/dev/provisioning/dashboards***.
+5. You can create or modify your dashboards as .json files in ***Dashboards/dev/provisioning/dashboards***.
 
 ## Submitting Changes
 
