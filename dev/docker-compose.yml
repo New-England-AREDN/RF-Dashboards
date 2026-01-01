@@ -4,18 +4,21 @@
 # This Compose file is configured to use the production Prometheus time-series
 # database for the New England AREDN Mesh.
 #
-# Version 1.0 - Create by AB1OC on Decemeber 31st, 2025
+# Version 1.0 - Created by AB1OC on January 1st, 2026.
 #
 # Notes:
 #    - You need to install the initial dashboard.json and
 #      dashboards.yml on the external volume that you define
 #      as "grafana_dash" on your local machine.
-#    - You can access the test Grafana instance as
-#      http://localhost:3000
-#    - You need to copy the env.example file to env and set the
+#
+#    - You need to copy the env.example file to .env and set the
 #      environment to customize the installation for your machine.
-#      You should then load your env along with this Stack in Portainer.
+#      You should then load your .env along with this Stack in Portainer.
 #      Set the comments in the env.example template file for details.
+#
+#    - You can access the test Grafana instance as
+#      http://localhost:3000.
+#
 #    - You can create your dashboard files in the provisioning/dashboards
 #      folder in your development directory. A copy of the working v1.0
 #      is included as a sample.

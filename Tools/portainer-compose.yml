@@ -1,0 +1,35 @@
+#
+# Docker Compose file to setup Portainer CE in Docker Desktop.
+#
+# Install Portainer CE by running the following commands after you
+# clone the dashboard development repo:
+#
+#   $ cd Dashboards/Tools
+#   $ docker compose -f portainer-compose.yml -p portainer-ce up -d
+#
+# Notes:
+#    - You can access Portainer-CE as https://localhost:9443.
+#
+
+services:
+
+  # Start the Portainer CE service
+  portainer:
+
+    image: portainer/portainer-ce:lts
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer_data:/data
+
+    ports:
+      - 9443:9443
+      - 8000:8000 # Optional: only required for Edge compute features
+    
+volumes:
+  portainer_data:

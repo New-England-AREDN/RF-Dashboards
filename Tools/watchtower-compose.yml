@@ -1,0 +1,57 @@
+#
+# watchtower-compose.yml - Docker compose file to set up Docker image update monitoring. Watchtower will
+#    send e-mail notifications when containers need to be updated.
+#
+# Notes:
+#    - You need to copy the env.example file to .env and set the
+#      environment to customize email notifications. Set the comments
+#      in the env.example template file for details.
+#
+#    - Create and run Stack in Portainer named 'watchtower' using this
+#      compose file. Also, import your email notifcation configuration
+#      from the .env file that you created.
+#
+# See https://watchtower.nickfedor.com/v1.13.1/notifications/overview/#common_smtp_configurations for information
+# on setting up notifications via email.
+#
+
+version: "3.9"
+
+services:
+    watchtower:
+        container_name: Watchtower
+        image: nickfedor/watchtower:latest
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        
+        # Restart on crashes and on reboots
+        restart: unless-stopped
+        
+        # No priv upgrades allowed
+        security_opt:
+            - no-new-privileges:true
+        
+        # Configure the container
+        environment:
+            # Set Timezone
+            - TZ=America/New_York
+            
+            # Cleanup old images
+            - WATCHTOWER_CLEANUP=true
+                      
+            # Monitor only - disable auto updates
+            - WATCHTOWER_MONITOR_ONLY=true
+             
+            # Set schedule for runs at 5:xx (35, 45, 55) am daily
+            - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
+            
+            # Setup e-mail notifications
+            - WATCHTOWER_NOTIFICATIONS=email
+            - WATCHTOWER_NOTIFICATION_EMAIL_SUBJECTTAG=Watchtower - ${DEVICE_NAME}
+            - WATCHTOWER_NOTIFICATION_EMAIL_FROM=${WATCHTOWER_NOTIFICATION_EMAIL_FROM}
+            - WATCHTOWER_NOTIFICATION_EMAIL_TO=${WATCHTOWER_NOTIFICATION_EMAIL_TO}
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER}
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT}
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}
+            - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}
+            - WATCHTOWER_NOTIFICATION_EMAIL_DELAY=300
