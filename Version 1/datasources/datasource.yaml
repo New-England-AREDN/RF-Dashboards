@@ -3,5 +3,5 @@ datasources:
   - name: Prometheus
     type: prometheus
     access: proxy 
-    url: http://mvara-aredn-prometheus:9090
+    url: <Datasource URL:port here>
     isDefault: true
