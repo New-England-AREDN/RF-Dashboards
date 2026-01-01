@@ -17,8 +17,8 @@ You will also need access to the New England production Prometheus Time Series D
 
 You can follow these steps to set up the Grafana dashboard development environment:
 
-1. [Install Docker Desktop](https://docs.docker.com/desktop/) on you development machine. If you are doing development on a Windows machine, you will also need to install [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about). Run Docker Desktop when the installation is complete.
-2. Clone this repo using your terminal to create a local ***Dashboards*** development file structure.
+1. [Install Docker Desktop](https://docs.docker.com/desktop/) on you development machine. If you are doing development on a Windows machine, you will also need to install [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about). Start Docker Desktop when the installation is complete.
+2. Clone this repo using your ***shell terminal*** to create a local ***Dashboards*** development file structure.
    - ```
      git clone https://github.com/New-England-AREDN/Dashboards
      ```
@@ -29,21 +29,21 @@ You can follow these steps to set up the Grafana dashboard development environme
      <edit> .env  # Set the variables for your development environment
      ```
 4. Install Portainer CE using the following commands:
-  - ```
-    cd ../Tools
-    docker compose -f portainer-compose.yml -p portainer-ce up -d
-    ```
-5. Start Portainer via [https://localhost:9443](https://localhost:9443). Next, set your Portainer password and log in to Portainer.
+   - ```
+     cd ../Tools
+     docker compose -f portainer-compose.yml -p portainer-ce up -d
+     ```
+5. Start Portainer via [https://localhost:9443](https://localhost:9443). Next, set your Portainer password and log in to Portainer. Click ***Get Started*** to use Portainer on your machine. Click on ***local*** to access your Docker Desktop environment.
 6. Create a ***Stack*** in Portainer for your Grafana development environment by uploading the provided ***Dashboards/dev/docker-compose.yml*** file and loading your ***Dashboard/dev/.env** file to create the environment variables for your stack.
-7. Run your Stack to start Grafana. You will be running the Version 1 RF-Dashboard using data from the New England production Prometheus TSDB. You can access Grafana and the current dashboard(s) via [http://localhost:3000](http://localhost:3000).
-8. Create and edit an email notification setup for Watchtower:
-  - ```
-    cd Dashboards/Tools
-    cp env.example .env
-    <edit> .env  # Set the variable to configure email notifications
-    ```
-9. Create a ***Stack*** in Portainer for Watchtower named ***watchtower*** by uploading ***Dashboards/Tools/watchtower-compose.yml*** file and load your ***Dashboards/Tools/.env** file to create the environment variables for your stack.
-10. You can create or modify your dashboards as .json files in ***Dashboards/dev/provisioning/dashboards***.
+7. Run your Stack to start Grafana. Access Grafana via [http://localhost:3000](http://localhost:3000). Log in as admin/admin and set your Grafana password. Select ***Dashboards *** from the list on the left. Then choose ***Combined Dashboard***.  You will be running the Version 1 RF-Dashboard using data from the New England production Prometheus TSDB.
+8. Next, install Watchtower. Begin by creating and editing an email notification setup for Watchtower. Return to your ***Terminal*** and run the following commands:
+   - ```
+     # Start in Dashboards/Tools
+     cp env.example .env
+     <edit> .env  # Set the variable to configure email notifications
+     ```
+9. Create a ***Stack*** in Portainer for Watchtower named ***watchtower*** by uploading ***Dashboards/Tools/watchtower-compose.yml*** file and then loading your ***Dashboards/Tools/.env** file to create the environment variables for your stack.
+10. Congratulations! Your development environment is ready to go. You can create or modify your dashboards as .json files in ***Dashboards/dev/provisioning/dashboards***.
 
 ## Submitting Changes
 
